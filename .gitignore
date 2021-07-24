@@ -1,2 +1,5 @@
-dist
+dist/
 *.swp
+
+venv/
+*.ankiaddon
