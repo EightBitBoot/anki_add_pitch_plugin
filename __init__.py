@@ -13,7 +13,7 @@ import os
 import re
 import time
 from aqt import mw, gui_hooks
-from aqt.utils import showInfo, chooseList, getOnlyText
+from aqt.utils import askUser, showInfo, chooseList, getOnlyText
 from aqt.qt import *
 from anki.storage import Collection
 from .util import *
@@ -49,12 +49,16 @@ def add_pitch_dialog():
         return
     else:
         note_type_id = note_type_ids[0]
+
+    # Added by Adin
+    edward_style = askUser("Do you want it edward style?")
+    
     note_ids = get_note_ids(deck_id, note_type_id)
     expr_idx, rdng_idx, out_idx = select_note_fields_all(note_ids[0])
 
     # extend notes
     nf_lst, n_updt, n_adone, n_sfail = add_pitch(
-        acc_dict, plugin_dir_name, note_ids, expr_idx, rdng_idx, out_idx
+        acc_dict, plugin_dir_name, note_ids, expr_idx, rdng_idx, out_idx, edward_style
         )
     showInfo(('done :)\n'
         'skipped {} already annotated notes\n'
@@ -128,6 +132,9 @@ def set_pitch_dialog(editor):
         '(Example: LHL)')
     )
 
+    # Added by Adin
+    edward_style = askUser("Do you want it Edward style?")
+
     # get note data
     data = [
         (fld, editor.mw.col.media.escapeImages(val))
@@ -145,7 +152,10 @@ def set_pitch_dialog(editor):
     # generate SVG
     svg = pitch_svg(hira, LH_patt)
     if len(old_field_val_clean) > 0:
-        separator = '<br><hr><br>'
+        if edward_style:
+            separator = "<br>"
+        else:
+            separator = '<br><hr><br>'
     else:
         separator = ''
     new_field_val = (

@@ -18,3 +18,7 @@ Anki addon to automatically add pitch accent information to cards.
 ### Notes
 * accent notation similar to [大辞林 アクセント解説](https://www.sanseido-publ.co.jp/publ/dicts/daijirin_ac.html)
 * `wadoku_pitchdb.csv` was generated from a [Wadoku XML dump](https://www.wadoku.de/wiki/display/WAD/Downloads+und+Links) (see [anki_add_pitch/wadoku_parse.py](https://github.com/IllDepence/anki_add_pitch/blob/master/wadoku_parse.py) for details)
+
+### Edward Edition Notes
+* The windows build.bat file requires 7zip to be installed and on the path
+* The posix build.sh file requires the zip command to be installed and on the path

@@ -150,7 +150,7 @@ def get_acc_patt(expr_field, reading_field, dicts):
     return False
 
 def add_pitch(acc_dict, plugin_dir_name, note_ids, expr_idx, reading_idx,
-              output_idx):
+              output_idx, edward_style):
     not_found_list = []
     num_updated = 0
     num_already_done = 0
@@ -175,13 +175,20 @@ def add_pitch(acc_dict, plugin_dir_name, note_ids, expr_idx, reading_idx,
         hira, LlHh_patt = patt
         LH_patt = re.sub(r'[lh]', '', LlHh_patt)
         svg = pitch_svg(hira, LH_patt)
+
         if not svg:
             num_svg_fail += 1
             continue
         if len(fields[output_idx]) > 0:
-            separator = '<br><hr><br>'
+            if edward_style:
+                # Edward seperator without line
+                separator = '<br>'
+            else:
+                # Old seperator
+                separator = '<br><hr><br>'
         else:
             separator = ''
+
         fields[output_idx] = (
             '{}<!-- accent_start -->{}{}<!-- accent_end -->'
             ).format(fields[output_idx], separator, svg)  # add svg
